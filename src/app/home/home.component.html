@@ -1,0 +1,51 @@
+
+<mat-card >
+    <mat-card-header>
+        <mat-card-title><span style="text-align: center;color:navy">Interstellar Transport System</span></mat-card-title>
+    </mat-card-header>
+    <mat-card-content   fxLayout="column" style="padding:10px;">
+        <br>
+        <div *ngIf="distanceFound">
+            <div  style="border:solid red 1px;background-color: greenyellow;">Shortest disance is :&nbsp;&nbsp;{{minDistance}}</div>
+            <br>
+            <div fxLayout="row" style="border:solid red 1px;background-color: greenyellow;">
+                <div>The shortest path is :&nbsp;&nbsp;</div>
+                <div fxFlex *ngFor="let p of minPathPlanets">
+                    <div>
+                        <div style="text-align: right;">{{p.name}}</div>
+                        <div style="text-align: right;">{{p.distanceTo}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <form [formGroup]="planetForm"  fxLayout="column" layout-fill>
+            <div  style="text-align: center;">
+                <mat-form-field appearance="outline">
+                    <mat-label>Source Planet</mat-label>
+                    <input matInput formControlName="cFromPlanet" readonly>
+                </mat-form-field>
+                <mat-error *ngIf="fc.cFromPlanet.errors">  
+                    <mat-error *ngIf="fc.cFromPlanet.errors.required">Source planet is required</mat-error>
+                </mat-error>
+            </div>
+            <div  style="text-align: center;">
+                <mat-form-field appearance="outline"> 
+                        <mat-label>Select Destination Planet</mat-label>
+                        <mat-select formControlName="cToPlanet">
+                            <mat-option *ngFor="let planet of planets" [value]="planet.planet_name"  >
+                                {{planet.planet_name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="fc.cToPlanet.errors">  
+                            <mat-error *ngIf="fc.cToPlanet.errors.required">Destination planet is required</mat-error>
+                        </mat-error>
+                </mat-form-field>
+            </div>
+            <div style="text-align: center;padding:5px;">
+                <button mat-raised-button  (click)="onSubmit()">Find</button>&nbsp;
+                <button mat-raised-button (click)="onReset()">Reset</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card> 
